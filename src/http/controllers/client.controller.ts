@@ -1,7 +1,7 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { CreateClientBody } from '../../dtos/client.dto';
+import { ClientProps } from '../../entities/client.entity';
 import { ClientService } from '../../services/client.service';
-import { maskCPF } from '../../utils/client.utils';
 
 @Controller('/clients')
 export class ClientController {
@@ -9,9 +9,15 @@ export class ClientController {
 
   @Post()
   async create(@Body() body: CreateClientBody): Promise<void> {
-    await this.clientService.create({
-      ...body,
-      cpf: maskCPF(body.cpf),
-    });
+    await this.clientService.create(body);
+  }
+
+  @Get()
+  async getAll(
+    @Query('page') page = 1,
+    @Query('limit') limit = 10,
+  ): Promise<ClientProps[]> {
+    const clients = await this.clientService.getAll(page, limit);
+    return clients;
   }
 }
