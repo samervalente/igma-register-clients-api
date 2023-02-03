@@ -23,4 +23,13 @@ export class PrismaClientRepository implements ClientRepository {
       },
     });
   }
+
+  async getAll(page?: number, limit?: number): Promise<ClientProps[]> {
+    const clients = await this.prisma.client.findMany({
+      skip: Number((page - 1) * limit),
+      take: Number(limit),
+    });
+
+    return clients;
+  }
 }

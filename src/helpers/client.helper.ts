@@ -1,37 +1,28 @@
 import { maskCPF } from '../utils/client.utils';
 
-function calculateCPFDigit(cpf: string, multValues: number[]) {
-  let digit = 0;
-  let totalSum = 0;
+export class ClientHelper {
+  validateCPFDigits(cpf: string) {
+    let validCPF = cpf.split(/-/)[0].split('.').join('');
 
-  for (let i = 0; i < cpf.length; i++) {
-    const mult = Number(cpf[i]) * multValues[i];
-    totalSum += mult;
+    const firstDigit = this.calculateCPFDigit(validCPF);
+    validCPF += firstDigit;
+    const secondDigit = this.calculateCPFDigit(validCPF);
+    validCPF += secondDigit;
+
+    return cpf === maskCPF(validCPF);
   }
 
-  const rest = totalSum % 11;
+  private calculateCPFDigit(cpf: string) {
+    let initialMult = 2;
+    let totalSum = 0;
 
-  if (rest >= 2) {
-    digit = 11 - rest;
+    for (let i = cpf.length - 1; i >= 0; i--) {
+      const mult = Number(cpf[i]) * initialMult;
+      totalSum += mult;
+      initialMult++;
+    }
+
+    const rest = totalSum % 11;
+    return rest >= 2 ? 11 - rest : 0;
   }
-
-  return digit;
-}
-
-export function validateCPF(bodyCPF: string) {
-  let validCPF = bodyCPF.split(/-/)[0].split('.').join('');
-
-  const multValues = [10, 9, 8, 7, 6, 5, 4, 3, 2];
-
-  const firstDigit = calculateCPFDigit(validCPF, multValues);
-  validCPF += firstDigit;
-  multValues.unshift(11);
-  const secondDigit = calculateCPFDigit(validCPF, multValues);
-  validCPF += secondDigit;
-
-  if (bodyCPF !== maskCPF(validCPF)) {
-    return false;
-  }
-
-  return true;
 }
