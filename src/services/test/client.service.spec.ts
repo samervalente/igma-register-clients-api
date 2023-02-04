@@ -1,8 +1,9 @@
 import { InMemoryClientRepository } from '../../../test/repositories/in-memory-client.repository';
 import { ClientService } from '../client.service';
-import { makeClient } from '../../../test/factories/client.factory';
+
 import {
   ConflictException,
+  NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
 
@@ -72,5 +73,14 @@ describe('Tests for get client by CPF service', () => {
 
     const foundClient = await clientService.getByCPF('065.035.742-66');
     expect(foundClient).toEqual(createdClient);
+  });
+
+  it('should not be able to get a client with non existing CPF', async () => {
+    const clientRepository = new InMemoryClientRepository();
+    const clientService = new ClientService(clientRepository);
+
+    expect(
+      async () => await clientService.getByCPF('123.456.789-10'),
+    ).rejects.toThrow(NotFoundException);
   });
 });
