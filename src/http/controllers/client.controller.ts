@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CreateClientBody } from '../../dtos/client.dto';
-import { ClientProps } from '../../entities/client.entity';
+import { Client, ClientProps } from '../../entities/client.entity';
 import { ClientService } from '../../services/client.service';
 
 @Controller('/clients')
