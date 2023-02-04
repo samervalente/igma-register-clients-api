@@ -1,12 +1,12 @@
-import { InMemoryClientRepository } from '../../../test/repositories/in-memory-client.repository';
-import { ClientService } from '../client.service';
+import { InMemoryClientRepository } from '../../test/repositories/in-memory-client.repository';
+import { ClientService } from './client.service';
 
 import {
   ConflictException,
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { makeClient } from '../../../test/factories/client.factory';
+import { makeClient } from '../../test/factories/client.factory';
 
 describe('Tests for create clients service', () => {
   it('should able to create a client', async () => {
@@ -86,7 +86,7 @@ describe('Tests for get client by CPF service', () => {
   });
 });
 
-describe('Tests for get all clients', () => {
+describe('Tests for get all clients services', () => {
   it('should be able to get all clients', async () => {
     const clientRepository = new InMemoryClientRepository();
     const clientService = new ClientService(clientRepository);
@@ -106,6 +106,35 @@ describe('Tests for get all clients', () => {
           name: 'Samer Valente',
           cpf: '971.276.840-65',
         }),
+      ]),
+    );
+  });
+
+  it('should be able to make pagination', async () => {
+    const clientRepository = new InMemoryClientRepository();
+    const clientService = new ClientService(clientRepository);
+    const validsCPF = [
+      '971.276.840-65',
+      '930.152.740-58',
+      '589.229.820-55',
+      '571.847.180-03',
+      '964.202.180-39',
+      '064.706.150-31',
+    ];
+
+    for (let i = 0; i < 6; i++) {
+      const client = makeClient({ cpf: validsCPF[i] });
+      await clientService.create(client);
+    }
+
+    const allClients = await clientService.getAll(2, 3);
+
+    expect(allClients).toHaveLength(3);
+    expect(allClients).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ cpf: '571.847.180-03' }),
+        expect.objectContaining({ cpf: '964.202.180-39' }),
+        expect.objectContaining({ cpf: '064.706.150-31' }),
       ]),
     );
   });

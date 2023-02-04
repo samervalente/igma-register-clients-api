@@ -39,7 +39,6 @@ export class ClientService {
   }
 
   async getAll(page?: number, limit?: number) {
-    console.log(page, limit);
     if ((page && !Number(page)) || (limit && !Number(limit))) {
       throw new BadRequestException('Invalid query params');
     }
@@ -50,7 +49,7 @@ export class ClientService {
 
   async getByCPF(cpf: string) {
     const client = await this.clientRepository.getByCPF(maskCPF(cpf));
-    console.log(client);
+
     if (!client) {
       throw new NotFoundException('Client not found');
     }
