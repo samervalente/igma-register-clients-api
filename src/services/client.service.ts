@@ -23,15 +23,15 @@ export class ClientService {
       throw new UnprocessableEntityException('Invalid CPF.');
     }
 
-    const clientOnDB = await this.clientRepository.getByCPF(body.cpf);
+    const clientOnDB = await this.clientRepository.getByCPF(maskCPF(cpf));
     if (clientOnDB) {
       throw new ConflictException('Client already exist with this CPF.');
     }
 
     const client = new Client({
       name,
-      birthDate,
       cpf: maskCPF(cpf),
+      birthDate,
     });
 
     await this.clientRepository.create(client);

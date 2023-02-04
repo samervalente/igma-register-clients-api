@@ -14,13 +14,9 @@ export class PrismaClientRepository implements ClientRepository {
     return client;
   }
 
-  async create({ name, cpf, birthDate }: CreateClientType): Promise<void> {
+  async create(client: CreateClientType): Promise<void> {
     await this.prisma.client.create({
-      data: {
-        name,
-        cpf,
-        birthDate,
-      },
+      data: client,
     });
   }
 

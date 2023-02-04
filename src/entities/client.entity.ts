@@ -21,7 +21,7 @@ export class Client {
   }
 
   public get cpf(): string {
-    return this.props.name;
+    return this.props.cpf;
   }
 
   public set cpf(cpf: string) {
@@ -29,7 +29,7 @@ export class Client {
   }
 
   public get birthDate(): string {
-    return this.props.name;
+    return this.props.birthDate;
   }
 
   public set birthDate(birthDate: string) {
