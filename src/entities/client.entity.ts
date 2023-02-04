@@ -1,5 +1,5 @@
 export interface ClientProps {
-  id: string;
+  id?: string;
   name: string;
   cpf: string;
   birthDate: string;
