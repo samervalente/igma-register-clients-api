@@ -9,7 +9,7 @@ export type CreateClientType = Omit<ClientProps, 'id'>;
 export class PrismaClientRepository implements ClientRepository {
   constructor(private prisma: PrismaService) {}
 
-  async findByCPF(cpf: string): Promise<ClientProps> {
+  async getByCPF(cpf: string): Promise<ClientProps> {
     const client = await this.prisma.client.findUnique({ where: { cpf } });
     return client;
   }

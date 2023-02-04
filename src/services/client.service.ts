@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { ClientHelper } from '../helpers/client.helper';
@@ -22,7 +23,7 @@ export class ClientService {
       throw new UnprocessableEntityException('Invalid CPF.');
     }
 
-    const clientOnDB = await this.clientRepository.findByCPF(client.cpf);
+    const clientOnDB = await this.clientRepository.getByCPF(client.cpf);
     if (clientOnDB) {
       throw new ConflictException('Client already exist with this CPF.');
     }
@@ -37,5 +38,14 @@ export class ClientService {
 
     const clients = await this.clientRepository.getAll(page, limit);
     return clients;
+  }
+
+  async getByCPF(cpf: string) {
+    const client = await this.clientRepository.getByCPF(maskCPF(cpf));
+    console.log(client);
+    if (!client) {
+      throw new NotFoundException('Client not found');
+    }
+    return client;
   }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CreateClientBody } from '../../dtos/client.dto';
 import { ClientProps } from '../../entities/client.entity';
 import { ClientService } from '../../services/client.service';
@@ -19,5 +19,11 @@ export class ClientController {
   ): Promise<ClientProps[]> {
     const clients = await this.clientService.getAll(page, limit);
     return clients;
+  }
+
+  @Get(':cpf')
+  async getByCPF(@Param() params: { cpf: string }): Promise<ClientProps> {
+    const client = await this.clientService.getByCPF(params.cpf);
+    return client;
   }
 }
