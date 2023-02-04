@@ -6,6 +6,7 @@ import {
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
+import { makeClient } from '../../../test/factories/client.factory';
 
 describe('Tests for create clients service', () => {
   it('should able to create a client', async () => {
@@ -82,5 +83,30 @@ describe('Tests for get client by CPF service', () => {
     expect(
       async () => await clientService.getByCPF('123.456.789-10'),
     ).rejects.toThrow(NotFoundException);
+  });
+});
+
+describe('Tests for get all clients', () => {
+  it('should be able to get all clients', async () => {
+    const clientRepository = new InMemoryClientRepository();
+    const clientService = new ClientService(clientRepository);
+    const validsCPF = ['971.276.840-65', '930.152.740-58', '589.229.820-55'];
+
+    for (let i = 0; i < 3; i++) {
+      const client = makeClient({ cpf: validsCPF[i] });
+      await clientService.create(client);
+    }
+
+    const allClients = await clientService.getAll();
+
+    expect(allClients).toHaveLength(3);
+    expect(allClients).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          name: 'Samer Valente',
+          cpf: '971.276.840-65',
+        }),
+      ]),
+    );
   });
 });

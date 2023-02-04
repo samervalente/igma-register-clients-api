@@ -39,7 +39,8 @@ export class ClientService {
   }
 
   async getAll(page?: number, limit?: number) {
-    if (!Number(page) || !Number(limit)) {
+    console.log(page, limit);
+    if ((page && !Number(page)) || (limit && !Number(limit))) {
       throw new BadRequestException('Invalid query params');
     }
 

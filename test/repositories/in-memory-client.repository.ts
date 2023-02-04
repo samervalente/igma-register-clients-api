@@ -14,7 +14,15 @@ export class InMemoryClientRepository implements ClientRepository {
     return client ? client : null;
   }
 
-  async getAll(page?: number, limit?: number): Promise<Client[] | null> {
-    return null;
+  async getAll(page?: number, limit?: number): Promise<Client[]> {
+    if (page && limit) {
+      const clients = [];
+      for (let i = page * limit - limit; i < page * limit; i++) {
+        clients.push(this.clients[i]);
+      }
+      return clients.filter((client) => client);
+    }
+
+    return this.clients;
   }
 }
