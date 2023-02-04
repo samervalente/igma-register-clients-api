@@ -15,7 +15,7 @@ export class CreateClientBody {
     message: 'CPF must be a string',
   })
   @Matches(/^[0-9]{3}.?[0-9]{3}.?[0-9]{3}-?[0-9]{2}/, {
-    message: 'CPF must be in 12345678910 or 123.456.789-10 format.',
+    message: 'CPF must be in XXXXXXXXXXX or XXX.XXX.XXX-XX format.',
   })
   cpf: string;
 

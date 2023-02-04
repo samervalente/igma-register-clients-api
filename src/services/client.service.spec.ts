@@ -1,12 +1,12 @@
 import { InMemoryClientRepository } from '../../test/repositories/in-memory-client.repository';
 import { ClientService } from './client.service';
+import { makeClient } from '../../test/factories/client.factory';
 
 import {
   ConflictException,
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { makeClient } from '../../test/factories/client.factory';
 
 describe('Tests for create clients service', () => {
   it('should able to create a client', async () => {
