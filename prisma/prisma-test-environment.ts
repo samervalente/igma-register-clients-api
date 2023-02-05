@@ -23,15 +23,9 @@ export default class PrismaTestEnvironment extends NodeEnvironment {
   constructor(config: JestEnvironmentConfig, _context: EnvironmentContext) {
     super(config, _context);
 
-    const dbUser = process.env.DATABASE_USER;
-    const dbPass = process.env.DATABASE_PASSWORD;
-    const dbHost = process.env.DATABASE_HOST;
-    const dbPort = process.env.DATABASE_PORT;
-    const dbName = process.env.DATABASE_NAME;
-
     this.schema = `${randomUUID()}`;
 
-    this.connectionString = `postgresql://${dbUser}:${dbPass}@${dbHost}:${dbPort}/${dbName}?schema=${this.schema}`;
+    this.connectionString = `${process.env.DATABASE_URL}?schema=${this.schema}`;
   }
 
   async setup() {

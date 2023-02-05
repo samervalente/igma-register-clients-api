@@ -1,4 +1,4 @@
-import { Client, ClientProps } from '../../src/entities/client.entity';
+import { ClientProps } from '../../src/entities/client.entity';
 
 type Override = Partial<ClientProps>;
 
