@@ -3,6 +3,7 @@ import * as dotenv from 'dotenv';
 import NodeEnvironment from 'jest-environment-node';
 import { JestEnvironmentConfig, EnvironmentContext } from '@jest/environment';
 import { Client } from 'pg';
+import { randomUUID } from 'node:crypto';
 import { promisify } from 'util';
 
 dotenv.config({
@@ -23,12 +24,12 @@ export default class PrismaTestEnvironment extends NodeEnvironment {
     super(config, _context);
 
     const dbUser = process.env.DATABASE_USER;
-    const dbPass = process.env.DATABASE_PASS;
+    const dbPass = process.env.DATABASE_PASSWORD;
     const dbHost = process.env.DATABASE_HOST;
     const dbPort = process.env.DATABASE_PORT;
     const dbName = process.env.DATABASE_NAME;
 
-    this.schema = `test_2`;
+    this.schema = `${randomUUID()}`;
 
     this.connectionString = `postgresql://${dbUser}:${dbPass}@${dbHost}:${dbPort}/${dbName}?schema=${this.schema}`;
   }

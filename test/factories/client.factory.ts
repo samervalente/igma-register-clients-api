@@ -3,10 +3,10 @@ import { Client, ClientProps } from '../../src/entities/client.entity';
 type Override = Partial<ClientProps>;
 
 export function makeClient(override: Override = {}) {
-  return new Client({
+  return {
     name: 'Samer Valente',
-    cpf: '06503574266',
+    cpf: '065.035.742-66',
     birthDate: '02/05/2003',
     ...override,
-  });
+  };
 }
