@@ -41,6 +41,15 @@ describe('Tests for clients (e2e)', () => {
       .expect(HttpStatus.CONFLICT);
   });
 
+  it(`/POST clients should not be able to create a client with invalid CPF`, async () => {
+    const client = makeClient({ cpf: '065.035.742-30' });
+
+    return request(app.getHttpServer())
+      .post('/clients')
+      .send(client)
+      .expect(HttpStatus.UNPROCESSABLE_ENTITY);
+  });
+
   it(`/GET clients should be able to return all clients`, () => {
     return request(app.getHttpServer()).get('/clients').expect(HttpStatus.OK);
   });
