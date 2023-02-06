@@ -1,0 +1,25 @@
+services:
+  pg-register-clients:
+    image: postgres
+    container_name: pg-register-clients
+    restart: always
+    ports:
+      - 6022:5432
+    volumes:
+      - pg-register-clients:/var/lib/postgresql/data
+    env_file:
+      - .env
+
+  register-clients-app:
+    container_name: register-clients-app
+    command: bash -c "npx prisma generate && npx prisma migrate deploy && npm start"
+    build: .
+    ports:
+      - 4000:4000
+    depends_on:
+      - pg-register-clients
+    env_file:
+      - .env
+
+volumes:
+  pg-register-clients:
