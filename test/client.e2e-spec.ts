@@ -108,6 +108,19 @@ describe('Tests for /clients (e2e)', () => {
       });
   });
 
+  it(`/GET clients/:cpf should not be able to return a client with non existing CPF`, async () => {
+    const mockClients = makeManyClients(5);
+    const nonExistingCPF = '065.035.742-66';
+
+    await prisma.client.createMany({
+      data: mockClients,
+    });
+
+    return request(app.getHttpServer())
+      .get(`/clients/${nonExistingCPF}`)
+      .expect(HttpStatus.NOT_FOUND);
+  });
+
   afterAll(async () => {
     await app.close();
   });
