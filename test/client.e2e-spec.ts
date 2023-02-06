@@ -25,6 +25,7 @@ describe('Tests for /clients (e2e)', () => {
 
   it(`/POST clients should be able to create a valid client`, () => {
     const mockClient = makeClient();
+
     return request(app.getHttpServer())
       .post('/clients')
       .send(mockClient)

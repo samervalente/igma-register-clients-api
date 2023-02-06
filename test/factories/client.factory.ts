@@ -8,7 +8,7 @@ export function makeClient(override: Override = {}) {
   return {
     name: faker.name.fullName(),
     cpf: '065.035.742-66',
-    birthDate: faker.date.birthdate({ min: 1920, max: 2005 }),
+    birthDate: '02/05/2003',
     ...override,
   };
 }
@@ -18,7 +18,10 @@ export function makeManyClients(quantity?: number) {
   const condition = quantity ?? validsCPF.length;
 
   for (let i = 0; i < condition; i++) {
-    const mockClient = makeClient({ cpf: validsCPF[i] });
+    const mockClient = makeClient({
+      cpf: validsCPF[i],
+      birthDate: faker.date.birthdate(),
+    });
     clients.push(mockClient);
   }
 

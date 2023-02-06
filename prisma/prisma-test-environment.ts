@@ -25,7 +25,6 @@ export default class PrismaTestEnvironment extends NodeEnvironment {
     this.schema = `${randomUUID()}`;
 
     this.connectionString = `${process.env.DATABASE_URL}?schema=${this.schema}`;
-    console.log(this.connectionString);
   }
 
   async setup() {
