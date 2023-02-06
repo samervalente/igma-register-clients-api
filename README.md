@@ -33,7 +33,7 @@ Uma API REST para cadastro e visualização de clientes.
 Primeiro, faça o clone desse repositório na sua maquina:
 
 ```
-git clone https://github.com/luanalessa/projeto-backend.git
+git clone https://github.com/samervalente/register-clients-api
 ```
 Em seguida, certifique-se se sua instância do postgresql esteja ativa
 
@@ -48,9 +48,14 @@ $ sudo service postgresql start
 ## 💻 Rodando na máquina local
 
 ```bash
+
+# instale as dependências
+$ npm install
+
 # crie um arquivo .env e insira
 DATABASE_URL="postgresql://${USER}:${PASSWORD}@localhost:5432/register-clients-db"
 
+# inicie a aplicação
 $ npm start
 
 # watch mode
@@ -63,11 +68,24 @@ $ npm run start:prod
 ## 🐳 Rodando no Docker
 
 ```bash
-# crie um arquivo .env e insira
-DATABASE_URL="postgresql://postgres:872463sv@pg-register-clients:5432/register-clients-db"
+# crie um arquivo .env e troque os valores pelas suas credenciais
+DATABASE_URL="postgresql://${USER}:${PASSWORD}@pg-register-clients:5432/register-clients-db"
+POSTGRES_DATABASE='register-clients-db'
+POSTGRES_USER=
+POSTGRES_PASSWORD=
+POSTGRES_PORT=5432
 
+# inicie a aplicação
 $ docker-compose up --build
 ```
+## 🌱 Seed
+Caso vocẽ queira popular o banco com vários dados pré-existentes (como por exemplo para testar a paginação), faça o seed para não ter que criar vários clientes manualmente. Observação: caso você tenha optado por rodar aplicação com docker, o comando de seed é executado automaticamente.
+
+```bash
+$ npx prisma db seed
+
+```
+
 
 ## Tests
 Cada suíte de teste utiliza um schema identificado por um identificador único (uuid) do próprio banco de dados antes criado, o que não afeta nosso banco principal e remove a necessidade de criar um outro banco e docker-compose para testes.
@@ -93,5 +111,44 @@ $ docker exec -it register-clients-app npm run test
 # e2e tests
 $ docker exec -it register-clients-app npm run test:e2e
 ```
+
+***
+
+## :rocket: Rotas
+
+    
+```yml 
+POST /clients
+    - Rota para registrar um novo cliente
+    - headers: {}
+    - body: {
+    "name": "Filipe Valente",
+    "cpf": "123.456.789-10",
+    "birthDate": "19/10/1999"
+    }
+```
+    
+```yml 
+GET /clients
+    - Rota para listar todos os clientes
+    - headers: {}
+    - body: {}
+```
+
+```yml
+GET /clients?page=2&limit=5
+    - Rota para listar um grupo específico de clientes através da paginação
+    - headers: {}
+    - body: {}
+``` 
+
+```yml
+GET /clients/:cpf 
+    - Rota para listar um cliente específico pelo CPF
+    - headers: {}
+    - body: {}
+```
+
+***
 
 
