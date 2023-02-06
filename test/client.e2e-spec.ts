@@ -5,6 +5,7 @@ import { AppModule } from '../src/app.module';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { makeClient, makeManyClients } from './factories/client.factory';
+import exp from 'constants';
 
 const prisma = new PrismaClient();
 
@@ -78,15 +79,34 @@ describe('Tests for /clients (e2e)', () => {
     });
 
     return request(app.getHttpServer())
-      .get('/clients')
-      .query({ page: 2, limit: 5 })
+      .get('/clients?page=2&limit=5')
       .expect(HttpStatus.OK)
       .expect((response: request.Response) => {
         expect(response.body).toBeInstanceOf(Array);
+        expect(response.body).not.toBeNull();
         expect(response.body).toHaveLength(5);
       });
   });
-  
+
+  it(`/GET clients/:cpf should be able to return a correct client`, async () => {
+    const mockClients = makeManyClients(5);
+    const targetClient = mockClients[3];
+    const { cpf, name } = targetClient;
+
+    await prisma.client.createMany({
+      data: mockClients,
+    });
+
+    return request(app.getHttpServer())
+      .get(`/clients/${cpf}`)
+      .expect(HttpStatus.OK)
+      .expect((response: request.Response) => {
+        expect(response.body).toBeInstanceOf(Object);
+        expect(response.body).not.toBeNull();
+        expect(response.body.cpf === cpf);
+        expect(response.body.name === name);
+      });
+  });
 
   afterAll(async () => {
     await app.close();
