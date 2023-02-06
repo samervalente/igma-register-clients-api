@@ -4,11 +4,11 @@ import { AppModule } from '../src/app.module';
 
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { makeClient } from './factories/client.factory';
+import { makeClient, makeManyClients } from './factories/client.factory';
 
 const prisma = new PrismaClient();
 
-describe('Tests for clients (e2e)', () => {
+describe('Tests for /clients (e2e)', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
@@ -55,26 +55,11 @@ describe('Tests for clients (e2e)', () => {
   });
 
   it(`/GET clients should be able to return all clients`, async () => {
-    const validsCPF = [
-      '862.147.780-75',
-      '700.851.490-55',
-      '990.298.490-88',
-      '898.545.140-56',
-      '744.390.360-07',
-      '530.399.740-50',
-      '971.276.840-65',
-      '930.152.740-58',
-      '589.229.820-55',
-      '571.847.180-03',
-      '964.202.180-39',
-      '064.706.150-31',
-    ];
+    const mockClients = makeManyClients();
 
-    for (const validCPF of validsCPF) {
-      await prisma.client.create({
-        data: makeClient({ cpf: validCPF }),
-      });
-    }
+    await prisma.client.createMany({
+      data: mockClients,
+    });
 
     return request(app.getHttpServer())
       .get('/clients')
@@ -84,6 +69,24 @@ describe('Tests for clients (e2e)', () => {
         expect(response.body).toHaveLength(12);
       });
   });
+
+  it(`/GET clients should be able to make pagination`, async () => {
+    const mockClients = makeManyClients(10);
+
+    await prisma.client.createMany({
+      data: mockClients,
+    });
+
+    return request(app.getHttpServer())
+      .get('/clients')
+      .query({ page: 2, limit: 5 })
+      .expect(HttpStatus.OK)
+      .expect((response: request.Response) => {
+        expect(response.body).toBeInstanceOf(Array);
+        expect(response.body).toHaveLength(5);
+      });
+  });
+  
 
   afterAll(async () => {
     await app.close();
