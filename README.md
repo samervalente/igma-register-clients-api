@@ -70,10 +70,9 @@ $ npm run start:prod
 ```bash
 # crie um arquivo .env e troque os valores pelas suas credenciais
 DATABASE_URL="postgresql://${USER}:${PASSWORD}@pg-register-clients:5432/register-clients-db"
-POSTGRES_DATABASE='register-clients-db'
+POSTGRES_DATABASE=register-clients-db
 POSTGRES_USER=
 POSTGRES_PASSWORD=
-POSTGRES_PORT=5432
 
 # inicie a aplicação
 $ docker-compose up --build
