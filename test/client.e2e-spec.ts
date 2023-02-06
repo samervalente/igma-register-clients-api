@@ -5,7 +5,6 @@ import { AppModule } from '../src/app.module';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { makeClient, makeManyClients } from './factories/client.factory';
-import exp from 'constants';
 
 const prisma = new PrismaClient();
 

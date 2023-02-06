@@ -7,9 +7,8 @@ import { randomUUID } from 'node:crypto';
 import { promisify } from 'util';
 
 dotenv.config({
-  path: __dirname + '/../.env.test',
+  path: __dirname + '/../.env',
   override: true,
-  debug: true,
 });
 
 const execSync = promisify(exec);
@@ -26,6 +25,7 @@ export default class PrismaTestEnvironment extends NodeEnvironment {
     this.schema = `${randomUUID()}`;
 
     this.connectionString = `${process.env.DATABASE_URL}?schema=${this.schema}`;
+    console.log(this.connectionString);
   }
 
   async setup() {
