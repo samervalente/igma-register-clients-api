@@ -3,10 +3,8 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
-  UnprocessableEntityException,
 } from '@nestjs/common';
 import { Client, ClientProps } from '../entities/client.entity';
-import { ClientHelper } from '../helpers/client.helper';
 
 import { ClientRepository } from '../repositories/client.repository';
 import { maskCPF } from '../utils/client.utils';
@@ -17,11 +15,6 @@ export class ClientService {
 
   async create(body: ClientProps) {
     const { name, cpf, birthDate } = body;
-
-    const isValidCPF = new ClientHelper().validateCPFDigits(maskCPF(cpf));
-    if (!isValidCPF) {
-      throw new UnprocessableEntityException('Invalid CPF.');
-    }
 
     const clientOnDB = await this.clientRepository.getByCPF(maskCPF(cpf));
     if (clientOnDB) {
@@ -35,6 +28,7 @@ export class ClientService {
     });
 
     await this.clientRepository.create(client);
+
     return client;
   }
 

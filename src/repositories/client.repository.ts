@@ -1,5 +1,5 @@
 import { ClientProps } from '../entities/client.entity';
-import { CreateClientType } from './prisma/client.repository';
+import { CreateClientType } from './prisma/prisma.client.repository';
 
 export abstract class ClientRepository {
   abstract getByCPF(cpf: string): Promise<ClientProps>;

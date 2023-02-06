@@ -2,7 +2,7 @@ export interface ClientProps {
   id?: string;
   name: string;
   cpf: string;
-  birthDate: string;
+  birthDate: Date;
 }
 
 export class Client {
@@ -28,11 +28,11 @@ export class Client {
     this.props.cpf = cpf;
   }
 
-  public get birthDate(): string {
+  public get birthDate(): Date {
     return this.props.birthDate;
   }
 
-  public set birthDate(birthDate: string) {
+  public set birthDate(birthDate: Date) {
     this.props.birthDate = birthDate;
   }
 }
