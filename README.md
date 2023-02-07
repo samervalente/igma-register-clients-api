@@ -52,8 +52,6 @@ $ npm install
 
 # crie um arquivo .env e insira
 DATABASE_URL="postgresql://${USER}:${PASSWORD}@localhost:5432/register-clients-db"
-APP_PORT=
-# por padrão, caso esta variável não seja inserada, a aplicação irá rodar na porta 4000.
 
 # inicie a aplicação
 $ npm start
@@ -65,7 +63,7 @@ $ npm run start:dev
 $ npm run start:prod
 
 # utilize a url para realizar as chamadas http
-http://localhost:${PORT}/clients
+http://localhost:4000/clients
 ```
 
 ## 🐳 Rodando no Docker
