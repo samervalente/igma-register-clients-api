@@ -55,6 +55,9 @@ DATABASE_URL="postgresql://${USER}:${PASSWORD}@localhost:5432/register-clients-d
 APP_PORT=
 # por padrão, caso a variável APP_PORT não esteja definida, a aplicação irá rodar na porta 4000.
 
+# crie o banco de dados e as tabelas através das migrations do prisma
+$ npx prisma migrate dev
+
 # inicie a aplicação
 $ npm start
 
