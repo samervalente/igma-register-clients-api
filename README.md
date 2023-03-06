@@ -95,7 +95,7 @@ $ npx prisma db seed
 ## Tests
 Cada suíte de teste utiliza um schema identificado por um identificador único (uuid) do próprio banco de dados antes criado, o que não afeta nosso banco principal e remove a necessidade de criar um outro banco e docker-compose para testes.
 
-Além disso, nossos testes unitários utilizam o conceito de in memory database, onde os dados estão armazenados na memória principal ao invés de estar em discos rígidos como ocorre na maior parte dos casos. In memory database também remove a necessidade de utilização de mockagem e oferece uma maior flexibilidade.
+Além disso, nossos testes unitários utilizam o conceito de in memory database, onde os dados estão armazenados na memória principal ao invés de estarem em discos rígidos como ocorre na maior parte dos casos. In memory database também remove a necessidade de utilização de mockagem e oferece uma maior flexibilidade.
 
 ## 🧪 Testes na máquina local
 
