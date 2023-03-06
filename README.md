@@ -33,7 +33,7 @@ Primeiro, faça o clone desse repositório na sua maquina:
 ```
 git clone https://github.com/samervalente/register-clients-api
 ```
-Em seguida, certifique-se se sua instância do postgresql esteja ativa
+Em seguida, certifique-se de que sua instância do postgresql esteja ativa
 
 ```bash
 # verifique o status
